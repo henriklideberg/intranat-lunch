@@ -1,0 +1,17 @@
+{
+  "name": "intranat-lunch",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "next": "14.2.5",
+    "node-fetch": "^3.3.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "date": "0000-00-00",
+  "weekday": "måndag",
+  "dishes": {
+    "dagens": "(kommer vid första körning)",
+    "veckansFisk": "(kommer vid första körning)",
+    "veckansVegetarisk": "(kommer vid första körning)"
+  }
+}
