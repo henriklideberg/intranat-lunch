@@ -9,11 +9,19 @@ function todayInTz(tz) {
 }
 const clean = s => (s||'').replace(/\s+/g,' ').replace(//g,'').trim();
 
-function linesFromHtml(html){
+function linesFromHtml(html) {
   const $ = cheerio.load(html);
   const text = $('main').text() || $('body').text() || $.root().text();
-  return text.split(/?
-/).map(x => clean(x)).filter(Boolean);
+
+  // Undvik regex och escape-tecken helt:
+  const LF = String.fromCharCode(10);  // '\n'
+  const CR = String.fromCharCode(13);  // '\r'
+
+  // Normalisera radslut: ersätt alla CR med LF
+  const normalized = text.split(CR).join(LF);
+
+  // Splitta säkert på LF utan specialtecken i källkoden
+  return normalized.split(LF).map(x => clean(x)).filter(Boolean);
 }
 
 function parseWeekly(html, weekdaySv){
