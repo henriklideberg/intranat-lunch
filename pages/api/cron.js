@@ -9,11 +9,11 @@ function todayInTz(tz) {
 }
 const clean = s => (s||'').replace(/\s+/g,' ').replace(//g,'').trim();
 
-function linesFromHtml(html){
+function linesFromHtml(html) {
   const $ = cheerio.load(html);
   const text = $('main').text() || $('body').text() || $.root().text();
-  return text.split('
-').map(x => clean(x)).filter(Boolean);
+  // Viktigt: använd ett regex för radbrytningar så slipper vi problem med '\n'
+  return text.split(/\r?\n/).map(x => clean(x)).filter(Boolean);
 }
 
 function parseWeekly(html, weekdaySv){
