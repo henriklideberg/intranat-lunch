@@ -1,5 +1,4 @@
 
-import fetch from 'node-fetch';
 import * as cheerio from 'cheerio';
 
 function todayInTz(tz) {
@@ -61,12 +60,7 @@ async function putGithubFile({owner, repo, path, branch, token, content, message
   const putResp = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}`, {
     method: 'PUT',
     headers: { ...headers, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      message,
-      content: Buffer.from(content).toString('base64'),
-      branch,
-      sha
-    })
+    body: JSON.stringify({ message, content: Buffer.from(content).toString('base64'), branch, sha })
   });
   if (!putResp.ok) throw new Error(`GitHub PUT failed ${putResp.status}: ${await putResp.text()}`);
   return putResp.json();
@@ -115,18 +109,13 @@ export default async function handler(req, res){
     const payload = {
       date, weekday,
       source: { week: weekUrl, home: homeUrl },
-      dishes: {
-        dagens: dagens || '',
-        veckansFisk: veckansFisk || '',
-        veckansVegetarisk: veckansVeg || ''
-      }
+      dishes: { dagens: dagens || '', veckansFisk: veckansFisk || '', veckansVegetarisk: veckansVeg || '' }
     };
 
     const owner  = process.env.GH_OWNER;
     const repo   = process.env.GH_REPO;
     const branch = process.env.GH_BRANCH || 'main';
     const token  = process.env.GH_TOKEN;
-
     if (!owner || !repo || !token) throw new Error('Saknar GH_OWNER/GH_REPO/GH_TOKEN');
 
     const jsonContent = JSON.stringify(payload, null, 2) + '

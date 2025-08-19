@@ -1,6 +1,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import Head from 'next/head';
 
 export async function getServerSideProps(){
   const p = path.join(process.cwd(), 'public', 'lunch.json');
@@ -12,36 +13,26 @@ export async function getServerSideProps(){
 export default function Lunch({ data }){
   const d = data?.dishes || {};
   return (
-    <html lang="sv">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <>
+      <Head>
         <title>Balthazar – Dagens lunch {data?.date || ''}</title>
-        <style>{`
-          body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;margin:0;padding:16px;background:#fff;color:#111}
-          .card{max-width:620px;margin:auto;border:1px solid #e5e7eb;border-radius:12px;padding:20px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
-          h1{font-size:20px;margin:0 0 4px}
-          .muted{color:#6b7280;font-size:13px;margin-bottom:12px}
-          .row{display:flex;gap:12px;flex-wrap:wrap}
-          .pill{background:#f3f4f6;border-radius:999px;padding:6px 10px;font-size:14px}
-          .dish{margin:8px 0;font-size:16px}
-        `}</style>
-      </head>
-      <body>
-        <div className="card">
-          <h1>Dagens lunch – Balthazar</h1>
-          <div className="muted">{data?.weekday || ''} {data?.date || ''}</div>
-          <div className="row">
-            <div className="pill">Dagens rätt</div>
-            <div className="pill">Veckans fisk</div>
-            <div className="pill">Veckans vegetariska</div>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+      <div style={{fontFamily:'system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif',margin:0,padding:16,background:'#fff',color:'#111'}}>
+        <div style={{maxWidth:620,margin:'0 auto',border:'1px solid #e5e7eb',borderRadius:12,padding:20,boxShadow:'0 1px 2px rgba(0,0,0,.04)'}}>
+          <h1 style={{fontSize:20,margin:'0 0 4px'}}>Dagens lunch – Balthazar</h1>
+          <div style={{color:'#6b7280',fontSize:13,marginBottom:12}}>{data?.weekday || ''} {data?.date || ''}</div>
+          <div style={{display:'flex',gap:12,flexWrap:'wrap'}}>
+            <div style={{background:'#f3f4f6',borderRadius:999,padding:'6px 10px',fontSize:14}}>Dagens rätt</div>
+            <div style={{background:'#f3f4f6',borderRadius:999,padding:'6px 10px',fontSize:14}}>Veckans fisk</div>
+            <div style={{background:'#f3f4f6',borderRadius:999,padding:'6px 10px',fontSize:14}}>Veckans vegetariska</div>
           </div>
-          <div className="dish"><strong>Dagens:</strong> {d.dagens || '-'}</div>
-          <div className="dish"><strong>Fisk:</strong> {d.veckansFisk || '-'}</div>
-          <div className="dish"><strong>Veg:</strong> {d.veckansVegetarisk || '-'}</div>
-          <div className="muted">Källa: balthazar.se</div>
+          <div style={{margin:'8px 0',fontSize:16}}><strong>Dagens:</strong> {d.dagens || '-'}</div>
+          <div style={{margin:'8px 0',fontSize:16}}><strong>Fisk:</strong> {d.veckansFisk || '-'}</div>
+          <div style={{margin:'8px 0',fontSize:16}}><strong>Veg:</strong> {d.veckansVegetarisk || '-'}</div>
+          <div style={{color:'#6b7280',fontSize:13,marginTop:12}}>Källa: balthazar.se</div>
         </div>
-      </body>
-    </html>
+      </div>
+    </>
   );
 }
